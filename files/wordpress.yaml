@@ -1,0 +1,67 @@
+---
+#oc adm policy add-scc-to-group anyuid system:authenticated
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+  labels:
+    app: wordpress
+spec:
+  ports:
+    - port: 8080
+      name: wordpress
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: wordpress
+  clusterIP: None
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: wordpress
+  labels:
+    app: wordpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      containers:
+      - image: openshift4-registry.redhatgovsa.io:5000/ocp4/wordpress:5.3-php7.2-apache
+#        securityContext:
+#          runAsUser: 0
+        imagePullPolicy: Always
+        name: wordpress-57
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: mysql
+        - name: WORDPRESS_DB_USER
+          value: wordpress
+        - name: WORDPRESS_DB_PASSWORD
+          value: wordpress
+        - name: WORDPRESS_DB_NAME
+          value: wordpress
+        - name: WORDPRESS_TABLE_PREFIX
+          value: wp_
+        ports:
+        - containerPort: 80
+          name: wordpress
+        volumeMounts:
+        - name: wordpress-data-ps
+          mountPath: /var/lib/wordpress/data
+      volumes:
+      - name: wordpress-data-ps
+        persistentVolumeClaim:
+          claimName: wordpress-data
+#      securityContext: 
+#        supplementalGroups: [65534]
+
+

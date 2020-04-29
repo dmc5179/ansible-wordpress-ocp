@@ -1,0 +1,6 @@
+---
+cluster_api: 'https://grimlock.redhatgov.io:443'
+validate_certs: false
+kubeconfig: '/home/danclark/.kube/config'
+
+

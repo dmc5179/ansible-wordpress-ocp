@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: false
+  remote_user: danclark
+#  connection: local
+
+  tasks:
+
+    - name: Create a wordpress namespace
+      #delegate_to: localhost
+      k8s:
+        host: "{{ cluster_api }}"
+        name: wordpress
+        api_version: v1
+        kind: Namespace
+        state: present
+        validate_certs: "{{ validate_certs }}"
+        wait: true
+        kubeconfig: "{{ kubeconfig }}"
+
+#- name: Create a Deployment by reading the definition from a local file
+#  k8s:
+#    state: present
+#    definition: "{{ lookup('file', '
