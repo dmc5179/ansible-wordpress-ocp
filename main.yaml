@@ -2,12 +2,10 @@
 - hosts: all
   become: false
   remote_user: danclark
-#  connection: local
 
   tasks:
 
     - name: Create a wordpress namespace
-      #delegate_to: localhost
       k8s:
         host: "{{ cluster_api }}"
         name: wordpress
@@ -18,7 +16,38 @@
         wait: true
         kubeconfig: "{{ kubeconfig }}"
 
-#- name: Create a Deployment by reading the definition from a local file
-#  k8s:
-#    state: present
-#    definition: "{{ lookup('file', '
+#    - name: Create Wordpress Database PVC
+#      k8s:
+#        state: present
+#        definition: "{{ lookup('file', 'wordpress-db-pvc.yaml') }}"
+#        namespace: wordpress
+#        validate_certs: "{{ validate_certs }}"
+#        wait: true
+#        kubeconfig: "{{ kubeconfig }}"
+
+#    - name: Create Wordpress PVC
+#      k8s:
+#        state: present
+#        definition: "{{ lookup('file', 'wordpress-data-pvc.yaml') }}"
+#        namespace: wordpress
+#        validate_certs: "{{ validate_certs }}"
+#        wait: true
+#        kubeconfig: "{{ kubeconfig }}"
+
+    - name: Create Wordpress Database
+      k8s:
+        state: present
+        definition: "{{ lookup('file', 'mysql.yaml') }}"
+        namespace: wordpress
+        validate_certs: "{{ validate_certs }}"
+        wait: true
+        kubeconfig: "{{ kubeconfig }}"
+
+    - name: Create Wordpress
+      k8s:
+        state: present
+        definition: "{{ lookup('file', 'wordpress.yaml') }}"
+        namespace: wordpress
+        validate_certs: "{{ validate_certs }}"
+        wait: true
+        kubeconfig: "{{ kubeconfig }}"

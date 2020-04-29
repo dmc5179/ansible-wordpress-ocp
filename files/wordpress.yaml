@@ -35,7 +35,7 @@ spec:
         app: wordpress
     spec:
       containers:
-      - image: openshift4-registry.redhatgovsa.io:5000/ocp4/wordpress:5.3-php7.2-apache
+      - image: wordpress:5.3-php7.2-apache
 #        securityContext:
 #          runAsUser: 0
         imagePullPolicy: Always
@@ -54,13 +54,13 @@ spec:
         ports:
         - containerPort: 80
           name: wordpress
-        volumeMounts:
-        - name: wordpress-data-ps
-          mountPath: /var/lib/wordpress/data
-      volumes:
-      - name: wordpress-data-ps
-        persistentVolumeClaim:
-          claimName: wordpress-data
+#        volumeMounts:
+#        - name: wordpress-data-ps
+#          mountPath: /var/lib/wordpress/data
+#      volumes:
+#      - name: wordpress-data-ps
+#        persistentVolumeClaim:
+#          claimName: wordpress-data
 #      securityContext: 
 #        supplementalGroups: [65534]
 
