@@ -14,7 +14,8 @@
         state: present
         validate_certs: "{{ validate_certs }}"
         wait: true
-        kubeconfig: "{{ kubeconfig }}"
+        api_key: 'sPtWfIK3oBWiPmZdOqVbt0IN6CPefT5aEOfJlKZQbkY'
+#        kubeconfig: "{{ kubeconfig }}"
 
 #    - name: Create Wordpress Database PVC
 #      k8s:
@@ -41,7 +42,8 @@
         namespace: wordpress
         validate_certs: "{{ validate_certs }}"
         wait: true
-        kubeconfig: "{{ kubeconfig }}"
+        api_key: 'sPtWfIK3oBWiPmZdOqVbt0IN6CPefT5aEOfJlKZQbkY'
+#        kubeconfig: "{{ kubeconfig }}"
 
     - name: Create Wordpress
       k8s:
@@ -50,4 +52,5 @@
         namespace: wordpress
         validate_certs: "{{ validate_certs }}"
         wait: true
-        kubeconfig: "{{ kubeconfig }}"
+        api_key: 'sPtWfIK3oBWiPmZdOqVbt0IN6CPefT5aEOfJlKZQbkY'
+#        kubeconfig: "{{ kubeconfig }}"
