@@ -6,6 +6,11 @@
 
   tasks:
 
+    - name: Install kubernetes pip module
+      pip:
+        name: kubernetes
+        state: present
+
     - name: Create a wordpress namespace
       k8s:
         host: "{{ cluster_api }}"
