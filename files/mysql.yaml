@@ -35,8 +35,9 @@ spec:
         app: mysql
     spec:
       containers:
-      - image: registry.redhat.io/rhel8/mysql-80
-#      - image: mysql:5.7
+#      - image: registry.redhat.io/rhscl/mysql-80-rhel7
+#      - image: registry.redhat.io/rhel8/mysql-80
+      - image: mysql:5.7
 #        securityContext:
 #          runAsUser: 0
         imagePullPolicy: Always

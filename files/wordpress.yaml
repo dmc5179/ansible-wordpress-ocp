@@ -35,9 +35,8 @@ spec:
         app: wordpress
     spec:
       containers:
-      - image: wordpress:5.3-php7.2-apache
-#        securityContext:
-#          runAsUser: 0
+#      - image: wordpress:5.3-php7.2-apache
+      - image: wordpress:5.4.0-php7.2-apache
         imagePullPolicy: Always
         name: wordpress-57
         env:
