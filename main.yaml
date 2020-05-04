@@ -27,14 +27,15 @@
 #        wait: true
 #        kubeconfig: "{{ kubeconfig }}"
 
-#    - name: Create Wordpress PVC
-#      k8s:
-#        state: present
-#        definition: "{{ lookup('file', 'wordpress-data-pvc.yaml') }}"
-#        namespace: wordpress
-#        validate_certs: "{{ validate_certs }}"
-#        wait: true
-#        kubeconfig: "{{ kubeconfig }}"
+    - name: Create Wordpress PVC
+      k8s:
+        state: present
+        definition: "{{ lookup('file', 'wordpress-data-pvc.yaml') }}"
+        namespace: wordpress
+        validate_certs: "{{ validate_certs }}"
+        wait: true
+        kubeconfig: "{{ kubeconfig }}"
+        api_key: "{{ api_key }}"
 
 #    - name: Create Wordpress Database
 #      k8s:
@@ -58,48 +59,48 @@
 
 
 
-    - name: Create Wordpress Database
-      k8s:
-        state: present
-        namespace: wordpress
-        api_version: v1
-        validate_certs: "{{ validate_certs }}"
-        wait: true
-        api_key: "{{ api_key }}"
-        definition:
-          apiVersion: v1
-          kind: Deployment
-          metadata:
-            name: mysql
-            labels:
-              app: mysql
-          spec:
-            replicas: 1
-            selector:
-              matchLabels:
-                app: mysql
-            strategy:
-              type: Recreate
-            template:
-              metadata:
-                labels:
-                  app: mysql
-              spec:
-                containers:
-                - image: mysql:5.7
-                  imagePullPolicy: Always
-                  name: mysql-57
-                  env:
-                  - name: MYSQL_DATABASE
-                    value: wordpress
-                  - name: MYSQL_USER
-                    value: wordpress
-                  - name: MYSQL_PASSWORD
-                    value: wordpress
-                  - name: MYSQL_ROOT_PASSWORD
-                    value: wordpress
-                  - name: MYSQL_TABLE_PREFIX
-                    value: wp_
-                  ports:
-                  - containerPort: 3306
-                    name: mysql
+#    - name: Create Wordpress Database
+#      k8s:
+#        state: present
+#        namespace: wordpress
+#        api_version: v1
+#        validate_certs: "{{ validate_certs }}"
+#        wait: true
+#        api_key: "{{ api_key }}"
+#        definition:
+#          apiVersion: v1
+#          kind: Deployment
+#          metadata:
+#            name: mysql
+#            labels:
+#              app: mysql
+#          spec:
+#            replicas: 1
+#            selector:
+#              matchLabels:
+#                app: mysql
+#            strategy:
+#              type: Recreate
+#            template:
+#              metadata:
+#                labels:
+#                  app: mysql
+#              spec:
+#                containers:
+#                - image: mysql:5.7
+#                  imagePullPolicy: Always
+#                  name: mysql-57
+#                  env:
+#                  - name: MYSQL_DATABASE
+#                    value: wordpress
+#                  - name: MYSQL_USER
+#                    value: wordpress
+#                  - name: MYSQL_PASSWORD
+#                    value: wordpress
+#                  - name: MYSQL_ROOT_PASSWORD
+#                    value: wordpress
+#                  - name: MYSQL_TABLE_PREFIX
+#                    value: wp_
+#                  ports:
+#                  - containerPort: 3306
+#                    name: mysql
