@@ -35,11 +35,7 @@ spec:
         app: mysql
     spec:
       containers:
-#      - image: registry.redhat.io/rhscl/mysql-80-rhel7
-#      - image: registry.redhat.io/rhel8/mysql-80
       - image: mysql:5.7
-#        securityContext:
-#          runAsUser: 0
         imagePullPolicy: Always
         name: mysql-57
         env:
@@ -51,21 +47,10 @@ spec:
           value: wordpress
         - name: MYSQL_ROOT_PASSWORD
           value: wordpress
-#        - name: MYSQL_HOST
-#          value: my-wordpress-site-db
         - name: MYSQL_TABLE_PREFIX
           value: wp_
         ports:
         - containerPort: 3306
           name: mysql
-#        volumeMounts:
-#        - name: wordpress-db-ps
-#          mountPath: /var/lib/mysql/
-#      volumes:
-#      - name: wordpress-db-ps
-#        persistentVolumeClaim:
-#          claimName: wordpress-db
-#      securityContext: 
-#        supplementalGroups: [65534]
 
 
