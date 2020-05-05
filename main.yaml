@@ -24,7 +24,6 @@
         validate_certs: "{{ validate_certs }}"
         wait: true
         api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
-#        kubeconfig: "{{ kubeconfig }}"
 
 #    - name: Create Wordpress Database PVC
 #      k8s:
@@ -53,7 +52,7 @@
         namespace: wordpress
         validate_certs: "{{ validate_certs }}"
         wait: true
-        api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
+        amapi_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
 
     - name: Create Wordpress
       k8s:
@@ -64,6 +63,31 @@
         validate_certs: "{{ validate_certs }}"
         wait: true
         api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
+
+    - name: Create Wordpress Route
+      k8s:
+        state: present
+        host: "{{ cluster_api }}"
+        namespace: wordpress
+        validate_certs: "{{ validate_certs }}"
+        wait: true
+        api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
+        definition:
+          apiVersion: v1
+          kind: Route
+          metadata:
+            labels:
+              app: wordpress
+            name: wordpress
+          spec:
+            host: "wordpress-wordpress.apps.{{ cluster_name }}.{{ cluster_domain }}"
+            port:
+              targetPort: wordpress
+            to:
+              kind: Service
+              name: wordpress
+              weight: 100
+            wildcardPolicy: None
 
 #    - name: Create Wordpress Database
 #      k8s:

@@ -1,5 +1,7 @@
 ---
 cluster_api: 'https://grimlock.redhatgov.io:443'
+cluster_name: 'grimlock'
+cluster_domain: 'redhatgov.io'
 validate_certs: false
 kubeconfig: ''
 api_key: ''
