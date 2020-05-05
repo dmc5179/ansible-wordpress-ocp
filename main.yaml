@@ -35,9 +35,10 @@
 #        wait: true
 #        kubeconfig: "{{ kubeconfig }}"
 
-    - name: Create Wordpress PVC
+    - name: Create Wordpress Database
       k8s:
         state: present
+        host: "{{ cluster_api }}"
         definition: "{{ lookup('file', 'wordpress-data-pvc.yaml') }}"
         namespace: wordpress
         validate_certs: "{{ validate_certs }}"
@@ -57,6 +58,7 @@
     - name: Create Wordpress
       k8s:
         state: present
+        host: "{{ cluster_api }}"
         definition: "{{ lookup('file', 'wordpress.yaml') }}"
         namespace: wordpress
         validate_certs: "{{ validate_certs }}"
