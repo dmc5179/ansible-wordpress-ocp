@@ -35,25 +35,25 @@
 #        wait: true
 #        kubeconfig: "{{ kubeconfig }}"
 
+#    - name: Create Wordpress Data PVC
+#      k8s:
+#        state: present
+#        host: "{{ cluster_api }}"
+#        definition: "{{ lookup('file', 'wordpress-data-pvc.yaml') }}"
+#        namespace: wordpress
+#        validate_certs: "{{ validate_certs }}"
+#        wait: true
+#        api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
+
     - name: Create Wordpress Database
       k8s:
         state: present
         host: "{{ cluster_api }}"
-        definition: "{{ lookup('file', 'wordpress-data-pvc.yaml') }}"
+        definition: "{{ lookup('file', 'mysql.yaml') }}"
         namespace: wordpress
         validate_certs: "{{ validate_certs }}"
         wait: true
         api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
-
-#    - name: Create Wordpress Database
-#      k8s:
-#        state: present
-#        definition: "{{ lookup('file', 'mysql.yaml') }}"
-#        namespace: wordpress
-#        validate_certs: "{{ validate_certs }}"
-#        wait: true
-#        api_key: "{{ api_key }}"
-##        kubeconfig: "{{ kubeconfig }}"
 
     - name: Create Wordpress
       k8s:
