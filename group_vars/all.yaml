@@ -3,4 +3,4 @@ cluster_api: 'https://grimlock.redhatgov.io:443'
 validate_certs: false
 kubeconfig: ''
 api_key: ''
-
+k8s_admin_password: ''

@@ -6,6 +6,12 @@
 
   tasks:
 
+    - name: Log in (obtain access token)
+      k8s_auth:
+        username: admin
+        password: "{{ k8s_admin_password }}"
+      register: k8s_auth_results
+
     - name: Create a wordpress namespace
       k8s:
         host: "{{ cluster_api }}"
@@ -15,7 +21,7 @@
         state: present
         validate_certs: "{{ validate_certs }}"
         wait: true
-        api_key: "{{ api_key }}"
+        api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
 #        kubeconfig: "{{ kubeconfig }}"
 
 #    - name: Create Wordpress Database PVC
@@ -34,8 +40,7 @@
         namespace: wordpress
         validate_certs: "{{ validate_certs }}"
         wait: true
-        kubeconfig: "{{ kubeconfig }}"
-        api_key: "{{ api_key }}"
+        api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
 
 #    - name: Create Wordpress Database
 #      k8s:
@@ -47,17 +52,14 @@
 #        api_key: "{{ api_key }}"
 ##        kubeconfig: "{{ kubeconfig }}"
 
-#    - name: Create Wordpress
-#      k8s:
-#        state: present
-#        definition: "{{ lookup('file', 'wordpress.yaml') }}"
-#        namespace: wordpress
-#        validate_certs: "{{ validate_certs }}"
-#        wait: true
-#        api_key: "{{ api_key }}"
-##        kubeconfig: "{{ kubeconfig }}"
-
-
+    - name: Create Wordpress
+      k8s:
+        state: present
+        definition: "{{ lookup('file', 'wordpress.yaml') }}"
+        namespace: wordpress
+        validate_certs: "{{ validate_certs }}"
+        wait: true
+        api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
 
 #    - name: Create Wordpress Database
 #      k8s:
