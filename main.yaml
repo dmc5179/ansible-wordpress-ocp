@@ -2,7 +2,6 @@
 - hosts: all
   connection: local
   become: false
-  remote_user: danclark
 
   tasks:
 
