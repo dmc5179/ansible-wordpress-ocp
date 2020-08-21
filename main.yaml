@@ -24,9 +24,9 @@
         wait: true
         api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
 
-    - name: Configure SCC policy for wordpress
-      shell:
-        cmd: oc adm policy add-scc-to-user anyuid -z default
+#    - name: Configure SCC policy for wordpress
+#      shell:
+#        cmd: oc adm policy add-scc-to-user anyuid -z default
 
     - name: Wait for SCC policy updates to take effect
       pause:
