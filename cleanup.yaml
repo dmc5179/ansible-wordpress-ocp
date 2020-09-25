@@ -1,0 +1,111 @@
+---
+- hosts: all
+  connection: local
+  become: false
+
+  tasks:
+
+    - name: Wordpress | Log in (obtain access token)
+      k8s_auth:
+        username: "{{ k8s_user }}"
+        password: "{{ k8s_password }}"
+        validate_certs: "{{ validate_certs }}"
+        host: "{{ cluster_api }}"
+      register: k8s_auth_results
+
+    - name: Wordpress | Remove Wordpress Route
+      k8s:
+        state: absent
+        host: "{{ cluster_api }}"
+        namespace: "{{ wordpress_namespace }}"
+        validate_certs: "{{ validate_certs }}"
+        wait: true
+        api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
+        definition:
+          apiVersion: v1
+          kind: Route
+          metadata:
+            labels:
+              app: wordpress
+            name: wordpress
+          spec:
+            host: "wordpress-wordpress.apps.{{ cluster_name }}.{{ cluster_domain }}"
+            port:
+              targetPort: wordpress
+            to:
+              kind: Service
+              name: wordpress
+              weight: 100
+            wildcardPolicy: None
+
+    - name: Wordpress | Remove Wordpress Deployment
+      k8s:
+        state: absent
+        host: "{{ cluster_api }}"
+        definition: "{{ lookup('template', '0920_wordpress.yaml.j2') }}"
+        namespace: "{{ wordpress_namespace }}"
+        validate_certs: "{{ validate_certs }}"
+        wait: true
+        api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
+
+    - name: Wordpress | Remove Database
+      k8s:
+        state: absent
+        host: "{{ cluster_api }}"
+        definition: "{{ lookup('template', '0910_mysql.yaml.j2') }}"
+        namespace: "{{ wordpress_namespace }}"
+        validate_certs: "{{ validate_certs }}"
+        wait: true
+        api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
+
+
+    - name: Wordpress | Remove SCC Policy
+      k8s:
+        state: absent
+        host: "{{ cluster_api }}"
+        definition: "{{ lookup('template', '0810_scc.openshift.yaml.j2') }}"
+        namespace: "{{ wordpress_namespace }}"
+        validate_certs: "{{ validate_certs }}"
+        wait: true
+        api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
+
+    - name: Wordpress | Remove Role Binding
+      k8s:
+        state: absent
+        host: "{{ cluster_api }}"
+        definition: "{{ lookup('template', '0300_rolebinding.yaml.j2') }}"
+        namespace: "{{ wordpress_namespace }}"
+        validate_certs: "{{ validate_certs }}"
+        wait: true
+        api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
+
+    - name: Wordpress | Remove Role
+      k8s:
+        state: absent
+        host: "{{ cluster_api }}"
+        definition: "{{ lookup('template', '0200_role.yaml.j2') }}"
+        namespace: "{{ wordpress_namespace }}"
+        validate_certs: "{{ validate_certs }}"
+        wait: true
+        api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
+
+    - name: Wordpress | Remove Service Account
+      k8s:
+        state: absent
+        host: "{{ cluster_api }}"
+        definition: "{{ lookup('template', '0100_service_account.yaml.j2') }}"
+        namespace: "{{ wordpress_namespace }}"
+        validate_certs: "{{ validate_certs }}"
+        wait: true
+        api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
+
+    - name: Wordpress | Remove namespace
+      k8s:
+        host: "{{ cluster_api }}"
+        name: "{{ wordpress_namespace }}"
+        api_version: v1
+        kind: Namespace
+        state: absent
+        validate_certs: "{{ validate_certs }}"
+        wait: true
+        api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
