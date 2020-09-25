@@ -1,5 +1,5 @@
 ---
-cluster_api: 'https://caas.example.com:443'
+cluster_api: 'https://api.caas.example.com:6443'
 cluster_name: 'caas'
 cluster_domain: 'example.com'
 validate_certs: false
