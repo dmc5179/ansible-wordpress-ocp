@@ -34,6 +34,8 @@ spec:
       labels:
         app: wordpress
     spec:
+      serviceAccount: wordpress
+      serviceAccountName: wordpress
       containers:
 #      - image: wordpress:5.3-php7.2-apache
       - image: wordpress:5.4.0-php7.2-apache
