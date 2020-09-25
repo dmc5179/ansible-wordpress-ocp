@@ -1,8 +1,8 @@
 ---
-cluster_api: 'https://grimlock.redhatgov.io:443'
-cluster_name: 'grimlock'
-cluster_domain: 'redhatgov.io'
+cluster_api: 'https://caas.example.com:443'
+cluster_name: 'caas'
+cluster_domain: 'example.com'
 validate_certs: false
 kubeconfig: ''
 api_key: ''
-k8s_admin_password: ''
+k8s_password: ''

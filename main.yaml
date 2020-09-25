@@ -8,7 +8,7 @@
     - name: Log in (obtain access token)
       k8s_auth:
         username: admin
-        password: "{{ k8s_admin_password }}"
+        password: "{{ k8s_password }}"
         validate_certs: "{{ validate_certs }}"
         host: "{{ cluster_api }}"
       register: k8s_auth_results
