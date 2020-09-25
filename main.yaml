@@ -36,7 +36,7 @@
       k8s:
         state: present
         host: "{{ cluster_api }}"
-        definition: "{{ lookup('file', 'mysql.yaml') }}"
+        definition: "{{ lookup('template', 'mysql.yaml.j2') }}"
         namespace: wordpress
         validate_certs: "{{ validate_certs }}"
         wait: true
@@ -46,7 +46,7 @@
       k8s:
         state: present
         host: "{{ cluster_api }}"
-        definition: "{{ lookup('file', 'wordpress.yaml') }}"
+        definition: "{{ lookup('template', 'wordpress.yaml.j2') }}"
         namespace: wordpress
         validate_certs: "{{ validate_certs }}"
         wait: true
