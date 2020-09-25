@@ -69,26 +69,26 @@
         state: present
         host: "{{ cluster_api }}"
         definition: "{{ lookup('template', '0910_mysql.yaml.j2') }}"
-        namespace: wordpress
+        namespace: "{{ wordpress_namespace }}"
         validate_certs: "{{ validate_certs }}"
         wait: true
         api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
 
-    - name: Create Wordpress
+    - name: Wordpress | Deploy Wordpress
       k8s:
         state: present
         host: "{{ cluster_api }}"
         definition: "{{ lookup('template', '0920_wordpress.yaml.j2') }}"
-        namespace: wordpress
+        namespace: "{{ wordpress_namespace }}"
         validate_certs: "{{ validate_certs }}"
         wait: true
         api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
 
-    - name: Create Wordpress Route
+    - name: Wordpress | Create Route
       k8s:
         state: present
         host: "{{ cluster_api }}"
-        namespace: wordpress
+        namespace: "{{ wordpress_namespace }}"
         validate_certs: "{{ validate_certs }}"
         wait: true
         api_key: "{{ k8s_auth_results.k8s_auth.api_key }}"
