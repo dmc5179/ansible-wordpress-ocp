@@ -5,6 +5,10 @@
 
   tasks:
 
+    - name: Create API address
+      set_fact:
+        cluster_api: 'https://api.{{ cluster_name }}.{{ cluster_domain }}:6443'
+
     - name: Wordpress | Log in (obtain access token)
       k8s_auth:
         username: "{{ k8s_user }}"

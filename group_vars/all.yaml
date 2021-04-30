@@ -1,0 +1,9 @@
+---
+cluster_name: 'caas'
+cluster_domain: 'example.com'
+validate_certs: false
+kubeconfig: ''
+api_key: ''
+k8s_user: ''
+k8s_password: ''
+wordpress_namespace: 'wordpress'
